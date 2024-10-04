@@ -1,29 +1,38 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-  }
-  
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #74c8ef;
+    }
+    
   h2 {
     text-align: center;
   }
-  
-  #loginPage, #homePage {
+
+  #loginPage, #homePage, #registerPage {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
     background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
   }
   
   input[type="email"],
-  input[type="password"] {
+  input[type="password"], #username {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
+  }
+
+  input[type="email"]:hover,
+  input[type="password"]:hover,
+  #username:hover {
+    border-color: #74c8ef; /* Change border color on hover */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Adds a shadow on hover */
+    background-color: #f0f8ff; /* Light background color on hover */
   }
   
   button {
@@ -32,12 +41,20 @@ body {
     color: white;
     border: none;
     cursor: pointer;
+    transition: transform 0.3s ease;
   }
   
   button:hover {
     background-color: #4c7b9b;
+    transform: scale(1.07);
   }
   
+
+  button:active{
+    transform: scale(0.92);
+  }
+
+
   .sticker-grid {
     padding-top: 50px;
     display: grid;
@@ -54,8 +71,19 @@ body {
     border-radius: 5px;
     padding: 10px;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .sticker:hover{
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+    cursor: pointer; /* Indicates it's clickable */
   }
   
+  .sticker:active{
+    transform:scale(0.95);
+  }
+
   .sticker img {
     max-width: 100%;
     height: auto;
@@ -69,4 +97,53 @@ body {
     display: block;
     margin: 0 auto 20px; /* Center the image and add margin below */
     max-width: 100px;    /* Adjust the width of the image */
+  }
+
+  .modal{
+    position: fixed; /* Stay in place on screen */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    display: none; /* Initially hidden */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    background-color: rgba(0, 0, 0, 0.5); /* Dark background for overlay */
+    z-index: 1000; /* Make sure it's above other elements */
+  }
+
+  .modal-content{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px; /* You can adjust this width */
+    max-width: 80%; /* Ensures it doesn't go beyond screen */
+    height:300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add a shadow */
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+
+  }
+
+  .tradeable{
+    border: 3px solid #ffffff; /* White border for a crisp look */
+    background: linear-gradient(180deg, #3ad4e0, #2e9cc6); /* Gradient for a shiny blue color */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(58, 212, 224, 0.8), /* Outer glow */
+                inset 0 0 15px rgba(50, 155, 198, 0.5); /* Inner glow */
+    transition: all 0.3s ease; /* Smooth transition */
+  }
+
+  .tradeable:hover{
+    box-shadow: 0 0 30px rgba(58, 212, 224, 1), /* Stronger glow on hover */
+    inset 0 0 25px rgba(50, 155, 198, 0.8); /* Brighter inner glow on hover */
+    transform: scale(1.1); /* Slightly scale up on hover for a pop effect */
   }

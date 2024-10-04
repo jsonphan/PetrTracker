@@ -11,11 +11,25 @@
     <!-- Login Page -->
     <div id="loginPage">
       <img src="images/petr.png" alt="Petr Logo" class="logo" />
-      <h2>Login to view stickers</h2>
+      <h2>Login</h2>
       <form id="loginForm">
         <input type="email" id="email" placeholder="Email" required />
         <input type="password" id="password" placeholder="Password" required />
         <button id="loginButton">Login</button>
+        <button type="button" id="createAccount">Create Account</button>
+      </form>
+    </div>
+
+    <!-- Reister Page -->
+    <div id="registerPage" style="display: none">
+      <img src="images/petr.png" alt="Petr Logo" class="logo" />
+      <h2>Create Account</h2>
+      <form id="registerForm">
+        <input id="username" placeholder="Username" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button id="registerButton">Create Account</button>
+        <button type="button" id="backLogin">Back to Login</button>
       </form>
     </div>
 
@@ -25,6 +39,21 @@
       <input type="file" id="stickerFile" accept="image/*" />
       <button id="addStickerButton">Add Sticker</button>
       <div class="sticker-grid" id="stickerGrid"></div>
+    </div>
+
+    <div id="stickerModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <img
+          id="modalImage"
+          src=""
+          alt="Selected Sticker"
+          style="max-width: 60%; height: 60%; margin-bottom: 15px"
+        />
+        <button id="deleteStickerButton" style="margin-bottom: 10px">
+          Delete Sticker
+        </button>
+        <button id="tradeButton">Mark as Tradable</button>
+      </div>
     </div>
   </body>
   <script src="script.js"></script>
