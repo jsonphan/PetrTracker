@@ -39,14 +39,19 @@ body {
   }
   
   .sticker-grid {
+    padding-top: 50px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
   }
   
   .sticker {
+    width: 100px;  /* Fixed width */
+    height: 100px; /* Fixed height */
+    object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
     background-color: #fff;
     border: 1px solid #ccc;
+    border-radius: 5px;
     padding: 10px;
     text-align: center;
   }
