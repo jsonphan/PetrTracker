@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC6oNqInbKnwrcTykbi-ZmNpEs17VEqvzU",
@@ -13,7 +14,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = getAuth(app); // auth
+const db = getFirestore(app); // database
+
 
 function createAccountPage(){
   document.getElementById("loginPage").style.display = "none"; // makes it invis
@@ -110,7 +113,7 @@ document.getElementById("loginButton").addEventListener("click", function(event)
 function addImage(){
   const image_input = document.getElementById("stickerFile"); // gets the file input and puts into variable
   const file = image_input.files[0]; // get the first file in the input
-
+  const user = auth.currentUser; // Get current logged-in user
   if (file){ // checks if valid file
     // Add class to it for styling later
 
@@ -128,11 +131,25 @@ function addImage(){
       openStickerModal(petrImg);
      }); 
     image_input.value = ""; // Sets the field to empty
+
+    const stickerData = { // Sticker data
+      imageUrl: petrImg.src,
+      tradable: false,
+    };
+
+    addDoc(collection(db, "users", user.uid, "stickers"), stickerData) // add to database
+    .then(() => {
+      console.log("Sticker added to Firestore");
+    })
+    .catch((error) => {
+      console.error("Error adding sticker to Firestore:", error.message);
+    });
   } 
 
 }
 
 document.getElementById("addStickerButton").addEventListener("click", addImage); // adds functionality to addsticker button
+
 
 
 let selectedSticker = null;
