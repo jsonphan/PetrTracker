@@ -59,10 +59,10 @@ document.getElementById("registerButton").addEventListener("click", function(eve
 
 function loginFunction(){
   
-  const email = document.getElementById("email").value; // Gets it from the email
-  const password = document.getElementById("password").value; // Gets it from the password
+  const email2 = document.getElementById("email").value; // Gets it from the email
+  const password2 = document.getElementById("password").value; // Gets it from the password
 
-  signInWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email2, password2)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
