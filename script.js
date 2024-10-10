@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC6oNqInbKnwrcTykbi-ZmNpEs17VEqvzU",
@@ -31,14 +31,14 @@ document.getElementById("backLogin").addEventListener("click", backToLogin);
 
 function registerAccount(){
 
-  const email1 = document.getElementById("email").value.trim(); // Gets it from the email
-  const password1 = document.getElementById("password").value.trim(); // Gets it from the password
+  const email1 = document.getElementById("registerEmail").value.trim(); // Gets it from the email
+  const password1 = document.getElementById("registerPass").value.trim(); // Gets it from the password
 
   createUserWithEmailAndPassword(auth, email1, password1)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
-      // ...
+
       alert("Account Created")
       document.getElementById("registerPage").style.display = "none";
       document.getElementById("homePage").style.display = "block";
@@ -48,7 +48,7 @@ function registerAccount(){
       const errorMessage = error.message;
       console.error("Error Code:", error.code);
       console.error("Error Message:", error.message);
-      // ..
+
     });
 }
 
@@ -59,14 +59,14 @@ document.getElementById("registerButton").addEventListener("click", function(eve
 
 function loginFunction(){
   
-  const email2 = document.getElementById("email").value; // Gets it from the email
-  const password2 = document.getElementById("password").value; // Gets it from the password
+  const email2 = document.getElementById("loginEmail").value; // Gets it from the email
+  const password2 = document.getElementById("loginPass").value; // Gets it from the password
 
   signInWithEmailAndPassword(auth, email2, password2)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
-      // ...
+    
       alert("Signed In")
       document.getElementById("loginPage").style.display = "none";
       document.getElementById("homePage").style.display = "block";
@@ -76,10 +76,30 @@ function loginFunction(){
       const errorMessage = error.message;
       console.error("Error Code:", error.code);
       console.error("Error Message:", error.message);
-      // ..
+     
     });
   
 }
+
+function logoutUser() {
+  signOut(auth)
+    .then(() => {
+      // Successfully signed out
+      alert("Logged out successfully!");
+      document.getElementById("homePage").style.display = "none";
+      document.getElementById("loginPage").style.display = "block"; // Redirect to login page
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error("Error logging out:", error.message);
+      alert("Failed to log out: " + error.message);
+    });
+}
+document.getElementById("logoutButton").addEventListener("click", function(event){
+  event.preventDefault();
+  logoutUser();
+})
+
 
 document.getElementById("loginButton").addEventListener("click", function(event){
   event.preventDefault(); // prevents refresh

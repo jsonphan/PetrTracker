@@ -13,8 +13,8 @@
       <img src="images/petr.png" alt="Petr Logo" class="logo" id="petrLogo" />
       <h2>Login</h2>
       <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPass" placeholder="Password" required />
         <button id="loginButton">Login</button>
         <button type="button" id="createAccount">Create Account</button>
       </form>
@@ -25,8 +25,13 @@
       <img src="images/petr.png" alt="Petr Logo" class="logo" id="petrLogo" />
       <h2>Create Account</h2>
       <form id="registerForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
+        <input type="email" id="registerEmail" placeholder="Email" required />
+        <input
+          type="password"
+          id="registerPass"
+          placeholder="Password"
+          required
+        />
         <button id="registerButton">Create Account</button>
         <button type="button" id="backLogin">Back to Login</button>
       </form>
@@ -37,6 +42,7 @@
       <h2>Your Petr Collection</h2>
       <input type="file" id="stickerFile" accept="image/*" />
       <button id="addStickerButton">Add Sticker</button>
+      <button id="logoutButton">Logout</button>
       <div class="sticker-grid" id="stickerGrid"></div>
     </div>
 
