@@ -30,9 +30,9 @@
   input[type="email"]:hover,
   input[type="password"]:hover,
   #username:hover {
-    border-color: #74c8ef; /* Change border color on hover */
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Adds a shadow on hover */
-    background-color: #f0f8ff; /* Light background color on hover */
+    border-color: #74c8ef; 
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    background-color: #f0f8ff;
   }
   
   button {
@@ -63,9 +63,9 @@
   }
   
   .sticker {
-    width: 100px;  /* Fixed width */
-    height: 100px; /* Fixed height */
-    object-fit: cover; /* Ensures the image covers the area while maintaining aspect ratio */
+    width: 100px; 
+    height: 100px; 
+    object-fit: cover; 
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -77,7 +77,7 @@
   .sticker:hover{
     transform: scale(1.1);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
-    cursor: pointer; /* Indicates it's clickable */
+    cursor: pointer;
   }
   
   .sticker:active{
@@ -95,23 +95,23 @@
 
   .logo {
     display: block;
-    margin: 0 auto 20px; /* Center the image and add margin below */
-    width: 100px;    /* Adjust the width of the image */
-    transition: transform 0.3s ease; /* Smooth transition */
+    margin: 0 auto 20px; 
+    width: 100px;
+    transition: transform 0.3s ease; 
     cursor: pointer;
   }
 
   .modal{
-    position: fixed; /* Stay in place on screen */
+    position: fixed; 
     top: 0;
     left: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    display: none; /* Initially hidden */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    background-color: rgba(0, 0, 0, 0.5); /* Dark background for overlay */
-    z-index: 1000; /* Make sure it's above other elements */
+    width: 100%; 
+    height: 100%; 
+    display: none; 
+    justify-content: center;
+    align-items: center; 
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
 
   .modal-content{
@@ -124,30 +124,30 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    width: 400px; /* You can adjust this width */
-    max-width: 80%; /* Ensures it doesn't go beyond screen */
+    width: 400px; 
+    max-width: 80%; 
     height:400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add a shadow */
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Stack children vertically */
-    justify-content: center; /* Center children vertically */
-    align-items: center; /* Center children horizontally */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
 
   }
 
   .tradable {
-    border: 3px solid #d4af37; /* Gold color */
-    background: linear-gradient(180deg, #f9e26b, #d4af37); /* Gradient for a shiny gold color */
-    border-radius: 5px; /* Rounded corners */
+    border: 3px solid #d4af37;
+    background: linear-gradient(180deg, #f9e26b, #d4af37);
+    border-radius: 5px;
     box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), /* Outer glow */
                 inset 0 0 15px rgba(212, 175, 55, 0.5); /* Inner glow */
-    transition: all 0.3s ease; /* Smooth transition */
+    transition: all 0.3s ease;
 }
 
   .tradable:hover {
-      box-shadow: 0 0 30px rgba(212, 175, 55, 1), /* Stronger glow on hover */
-                  inset 0 0 25px rgba(212, 175, 55, 0.8); /* Brighter inner glow on hover */
-      transform: scale(1.1); /* Slightly scale up on hover for a pop effect */
+      box-shadow: 0 0 30px rgba(212, 175, 55, 1), 
+                  inset 0 0 25px rgba(212, 175, 55, 0.8); 
+      transform: scale(1.1);
   }
 
   .caption{
@@ -157,6 +157,6 @@
   .stickerCont{
     display:flex;
     flex-direction: column;
-    align-items: center; /* Center the content */
-    margin-bottom: 10px; /* Space between stickers */
+    align-items: center;
+    margin-bottom: 10px;
   }

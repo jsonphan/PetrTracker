@@ -1,4 +1,19 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyC6oNqInbKnwrcTykbi-ZmNpEs17VEqvzU",
+  authDomain: "start-4bda5.firebaseapp.com",
+  projectId: "start-4bda5",
+  storageBucket: "start-4bda5.appspot.com",
+  messagingSenderId: "274359714119",
+  appId: "1:274359714119:web:f7696f8c4fabd3c50bcc62",
+  measurementId: "G-VQT2N42C6S",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 function createAccountPage(){
   document.getElementById("loginPage").style.display = "none"; // makes it invis
@@ -15,18 +30,26 @@ function backToLogin(){
 document.getElementById("backLogin").addEventListener("click", backToLogin);
 
 function registerAccount(){
-  const username = document.getElementById("username").value; // Gets it from the email
+
   const email = document.getElementById("email").value; // Gets it from the email
-  const pass = document.getElementById("password").value; // Gets it from the password
+  const password = document.getElementById("password").value; // Gets it from the password
 
-  if (email === "test@test" && pass === "123"){
-    document.getElementById("registerPage").style.display = "none"; // makes it invis
-    document.getElementById("homePage").style.display = "block"; // makes the home page vis
-
-  }
-  else{
-    alert("Incorrect Username or Password. Please try again.");
-  }
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.user;
+      // ...
+      alert("Account Created")
+      document.getElementById("registerPage").style.display = "none";
+      document.getElementById("homePage").style.display = "block";
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error Code:", error.code);
+      console.error("Error Message:", error.message);
+      // ..
+    });
 }
 
 document.getElementById("registerButton").addEventListener("click", function(event) {
@@ -37,16 +60,25 @@ document.getElementById("registerButton").addEventListener("click", function(eve
 function loginFunction(){
   
   const email = document.getElementById("email").value; // Gets it from the email
-  const pass = document.getElementById("password").value; // Gets it from the password
+  const password = document.getElementById("password").value; // Gets it from the password
 
-  if (email === "test@test" && pass === "123"){
-    document.getElementById("loginPage").style.display = "none"; // makes it invis
-    document.getElementById("homePage").style.display = "block"; // makes the home page vis
-
-  }
-  else{
-    alert("Incorrect Username or Password. Please try again.");
-  }
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.user;
+      // ...
+      alert("Signed In")
+      document.getElementById("registerPage").style.display = "none";
+      document.getElementById("homePage").style.display = "block";
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error Code:", error.code);
+      console.error("Error Message:", error.message);
+      // ..
+    });
+  
 }
 
 document.getElementById("loginButton").addEventListener("click", function(event){
@@ -85,7 +117,7 @@ document.getElementById("addStickerButton").addEventListener("click", addImage);
 
 let selectedSticker = null;
 
-function openStickerModal(sticker){
+function openStickerModal(sticker){ // opens the sticker modal to show stcierk/description/etc.
   selectedSticker = sticker;
   const modalImage = document.getElementById("modalImage");
   modalImage.src = sticker.src;
@@ -95,17 +127,17 @@ function openStickerModal(sticker){
 
 const modal = document.getElementById("stickerModal");
 
-modal.addEventListener("click", function(event){
+modal.addEventListener("click", function(event){ // when we click outside it closes modal
   if (event.target === modal){
     closeStickerModal();
   }
 })
 function closeStickerModal(){
-  const modal = document.getElementById("stickerModal");
+  const modal = document.getElementById("stickerModal"); // function to close
   modal.style.display = "none"; // Hide modal
 }
 
-function deleteSticker(){
+function deleteSticker(){ // deletes sticker
   if (selectedSticker){
     selectedSticker.remove();
     closeStickerModal();
@@ -115,7 +147,7 @@ function deleteSticker(){
 document.getElementById("deleteStickerButton").addEventListener("click", deleteSticker);
 
 
-function markTradable(){
+function markTradable(){ // allows the sticker to be marked tradable
   if (selectedSticker){
     if (selectedSticker.classList.contains("tradable")){
       selectedSticker.classList.remove("tradable");
