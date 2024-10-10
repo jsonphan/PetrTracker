@@ -68,7 +68,7 @@ function loginFunction(){
       const user = userCredential.user;
       // ...
       alert("Signed In")
-      document.getElementById("registerPage").style.display = "none";
+      document.getElementById("loginPage").style.display = "none";
       document.getElementById("homePage").style.display = "block";
     })
     .catch((error) => {
