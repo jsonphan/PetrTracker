@@ -96,7 +96,9 @@
   .logo {
     display: block;
     margin: 0 auto 20px; /* Center the image and add margin below */
-    max-width: 100px;    /* Adjust the width of the image */
+    width: 100px;    /* Adjust the width of the image */
+    transition: transform 0.3s ease; /* Smooth transition */
+    cursor: pointer;
   }
 
   .modal{
@@ -122,9 +124,9 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    width: 300px; /* You can adjust this width */
+    width: 400px; /* You can adjust this width */
     max-width: 80%; /* Ensures it doesn't go beyond screen */
-    height:300px;
+    height:400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add a shadow */
     display: flex; /* Enable flexbox */
     flex-direction: column; /* Stack children vertically */
@@ -133,17 +135,28 @@
 
   }
 
-  .tradeable{
-    border: 3px solid #ffffff; /* White border for a crisp look */
-    background: linear-gradient(180deg, #3ad4e0, #2e9cc6); /* Gradient for a shiny blue color */
+  .tradable {
+    border: 3px solid #d4af37; /* Gold color */
+    background: linear-gradient(180deg, #f9e26b, #d4af37); /* Gradient for a shiny gold color */
     border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 20px rgba(58, 212, 224, 0.8), /* Outer glow */
-                inset 0 0 15px rgba(50, 155, 198, 0.5); /* Inner glow */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), /* Outer glow */
+                inset 0 0 15px rgba(212, 175, 55, 0.5); /* Inner glow */
     transition: all 0.3s ease; /* Smooth transition */
+}
+
+  .tradable:hover {
+      box-shadow: 0 0 30px rgba(212, 175, 55, 1), /* Stronger glow on hover */
+                  inset 0 0 25px rgba(212, 175, 55, 0.8); /* Brighter inner glow on hover */
+      transform: scale(1.1); /* Slightly scale up on hover for a pop effect */
   }
 
-  .tradeable:hover{
-    box-shadow: 0 0 30px rgba(58, 212, 224, 1), /* Stronger glow on hover */
-    inset 0 0 25px rgba(50, 155, 198, 0.8); /* Brighter inner glow on hover */
-    transform: scale(1.1); /* Slightly scale up on hover for a pop effect */
+  .caption{
+    padding-bottom: 10px;
+  }
+
+  .stickerCont{
+    display:flex;
+    flex-direction: column;
+    align-items: center; /* Center the content */
+    margin-bottom: 10px; /* Space between stickers */
   }

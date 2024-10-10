@@ -60,10 +60,16 @@ function addImage(){
   const file = image_input.files[0]; // get the first file in the input
 
   if (file){ // checks if valid file
+    // Add class to it for styling later
+
     const petrImg = document.createElement("img"); // creates an image element
     petrImg.src = URL.createObjectURL(file); // creates a URL for our img element
     petrImg.classList.add("sticker"); // adds the sticker class
     petrImg.alt = "Sticker"; // Just in case
+
+
+  // USE DATA DESCRIPTON RAHHHHHHHHHHHHHHHH
+
     document.getElementById("stickerGrid").appendChild(petrImg); // Append that sticker
 
      petrImg.addEventListener("click", function(){
@@ -111,14 +117,16 @@ document.getElementById("deleteStickerButton").addEventListener("click", deleteS
 
 function markTradable(){
   if (selectedSticker){
-    if (selectedSticker.classList.contains("tradeable")){
-      selectedSticker.classList.remove("tradeable");
+    if (selectedSticker.classList.contains("tradable")){
+      selectedSticker.classList.remove("tradable");
     }
     else{
-      selectedSticker.classList.add("tradeable");
+      selectedSticker.classList.add("tradable");
     }
     closeStickerModal();
   }
 }
 
 document.getElementById("tradeButton").addEventListener("click", markTradable);
+
+

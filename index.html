@@ -10,7 +10,7 @@
   <body>
     <!-- Login Page -->
     <div id="loginPage">
-      <img src="images/petr.png" alt="Petr Logo" class="logo" />
+      <img src="images/petr.png" alt="Petr Logo" class="logo" id="petrLogo" />
       <h2>Login</h2>
       <form id="loginForm">
         <input type="email" id="email" placeholder="Email" required />
@@ -22,7 +22,7 @@
 
     <!-- Reister Page -->
     <div id="registerPage" style="display: none">
-      <img src="images/petr.png" alt="Petr Logo" class="logo" />
+      <img src="images/petr.png" alt="Petr Logo" class="logo" id="petrLogo" />
       <h2>Create Account</h2>
       <form id="registerForm">
         <input id="username" placeholder="Username" required />
@@ -49,6 +49,7 @@
           alt="Selected Sticker"
           style="max-width: 60%; height: 60%; margin-bottom: 15px"
         />
+        <textarea name="caption" id="caption" placeholder="Caption"> </textarea>
         <button id="deleteStickerButton" style="margin-bottom: 10px">
           Delete Sticker
         </button>
