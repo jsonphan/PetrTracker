@@ -31,10 +31,10 @@ document.getElementById("backLogin").addEventListener("click", backToLogin);
 
 function registerAccount(){
 
-  const email = document.getElementById("email").value; // Gets it from the email
-  const password = document.getElementById("password").value; // Gets it from the password
+  const email1 = document.getElementById("email").value.trim(); // Gets it from the email
+  const password1 = document.getElementById("password").value.trim(); // Gets it from the password
 
-  createUserWithEmailAndPassword(auth, email, password)
+  createUserWithEmailAndPassword(auth, email1, password1)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
