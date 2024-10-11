@@ -73,6 +73,7 @@ function loginFunction(){
       alert("Signed In")
       document.getElementById("loginPage").style.display = "none";
       document.getElementById("homePage").style.display = "block";
+      loadStickers();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -150,6 +151,41 @@ function addImage(){
 
 document.getElementById("addStickerButton").addEventListener("click", addImage); // adds functionality to addsticker button
 
+function loadStickers() {
+  const user = auth.currentUser;
+
+  if (user) {
+    // Get all stickers for the logged-in user
+    const stickersRef = collection(db, "users", user.uid, "stickers");
+
+    getDocs(stickersRef)
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const stickerData = doc.data();
+
+          const petrImg = document.createElement("img");
+          petrImg.src = stickerData.imageUrl;
+          petrImg.classList.add("sticker");
+          petrImg.alt = "Sticker";
+
+          // If the sticker is tradable, add the tradable class
+          if (stickerData.tradable) {
+            petrImg.classList.add("tradable");
+          }
+
+          // Append the sticker to the grid
+          document.getElementById("stickerGrid").appendChild(petrImg);
+
+          petrImg.addEventListener("click", function () {
+            openStickerModal(petrImg);
+          });
+        });
+      })
+      .catch((error) => {
+        console.error("Error loading stickers from Firestore:", error.message);
+      });
+  }
+}
 
 
 let selectedSticker = null;
