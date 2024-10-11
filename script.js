@@ -255,20 +255,20 @@ function markTradable() { // marks sticker tradable
       const stickerRef = doc(db, "users", user.uid, "stickers", stickerId);
       const isCurrentlyTradable = selectedSticker.classList.contains("tradable");
 
-      // Toggle the tradable class in the UI
+      // toggle if tradable
       if (isCurrentlyTradable) {
         selectedSticker.classList.remove("tradable");
       } else {
         selectedSticker.classList.add("tradable");
       }
 
-      // Update the "tradable" status in Firestore
+      // update the tradable in Firebase
       updateDoc(stickerRef, {
         tradable: !isCurrentlyTradable
       })
         .then(() => {
           console.log("Tradable status updated in Firestore");
-          closeStickerModal(); // Optionally close modal after update
+          closeStickerModal(); // close the modal after updating
         })
         .catch((error) => {
           console.error("Error updating tradable status:", error.message);
