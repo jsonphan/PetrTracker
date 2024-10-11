@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, updateDoc, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC6oNqInbKnwrcTykbi-ZmNpEs17VEqvzU",
@@ -16,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // auth
 const db = getFirestore(app); // database
-
+const storage = getStorage(app); // Initialize Firebase Storage
 
 function createAccountPage(){
   document.getElementById("loginPage").style.display = "none"; // makes it invis
@@ -90,8 +91,15 @@ function logoutUser() {
     .then(() => {
       // Successfully signed out
       alert("Logged out successfully!");
+    
+      const stickerGrid = document.getElementById("stickerGrid");
+      stickerGrid.innerHTML = "";
+
       document.getElementById("homePage").style.display = "none";
       document.getElementById("loginPage").style.display = "block"; // Redirect to login page
+
+    
+    
     })
     .catch((error) => {
       // Handle errors
@@ -111,43 +119,58 @@ document.getElementById("loginButton").addEventListener("click", function(event)
 });
 
 
-function addImage(){
-  const image_input = document.getElementById("stickerFile"); // gets the file input and puts into variable
-  const file = image_input.files[0]; // get the first file in the input
-  const user = auth.currentUser; // Get current logged-in user
-  if (file){ // checks if valid file
-    // Add class to it for styling later
 
-    const petrImg = document.createElement("img"); // creates an image element
-    petrImg.src = URL.createObjectURL(file); // creates a URL for our img element
-    petrImg.classList.add("sticker"); // adds the sticker class
-    petrImg.alt = "Sticker"; // Just in case
+function addImage() {
+  const image_input = document.getElementById("stickerFile");
+  const file = image_input.files[0];
+  const user = auth.currentUser;
 
+  if (file && user) {
+    // Create a storage reference
+    const storageRef = ref(storage, `stickers/${user.uid}/${file.name}`);
 
-  // USE DATA DESCRIPTON RAHHHHHHHHHHHHHHHH
+    // Upload the image to Firebase Storage
+    uploadBytes(storageRef, file).then((snapshot) => {
+      console.log("Uploaded the image to Firebase Storage!");
 
-    document.getElementById("stickerGrid").appendChild(petrImg); // Append that sticker
+      // Get the download URL after the file is uploaded
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log("File available at", downloadURL);
 
-     petrImg.addEventListener("click", function(){
-      openStickerModal(petrImg);
-     }); 
-    image_input.value = ""; // Sets the field to empty
+        // Save the sticker info (including download URL) to Firestore
+        const stickerData = {
+          imageUrl: downloadURL, // Use the Firebase Storage URL
+          description: "", // Initialize with an empty description
+          tradable: false, // Initialize as non-tradable
+        };
 
-    const stickerData = { // Sticker data
-      imageUrl: petrImg.src,
-      tradable: false,
-    };
+        addDoc(collection(db, "users", user.uid, "stickers"), stickerData)
+          .then(() => {
+            console.log("Sticker added to Firestore");
 
-    addDoc(collection(db, "users", user.uid, "stickers"), stickerData) // add to database
-    .then(() => {
-      console.log("Sticker added to Firestore");
-    })
-    .catch((error) => {
-      console.error("Error adding sticker to Firestore:", error.message);
+            // Now append the sticker to the grid with the correct URL
+            const petrImg = document.createElement("img");
+            petrImg.src = downloadURL;
+            petrImg.classList.add("sticker");
+            petrImg.alt = "Sticker";
+
+            document.getElementById("stickerGrid").appendChild(petrImg);
+            petrImg.addEventListener("click", function () {
+              openStickerModal(petrImg);
+            });
+
+            image_input.value = ""; // Clear input field
+          })
+          .catch((error) => {
+            console.error("Error adding sticker to Firestore:", error.message);
+          });
+      });
+    }).catch((error) => {
+      console.error("Error uploading image to Firebase Storage:", error.message);
     });
-  } 
-
+  }
 }
+
 
 document.getElementById("addStickerButton").addEventListener("click", addImage); // adds functionality to addsticker button
 
@@ -155,7 +178,6 @@ function loadStickers() {
   const user = auth.currentUser;
 
   if (user) {
-    // Get all stickers for the logged-in user
     const stickersRef = collection(db, "users", user.uid, "stickers");
 
     getDocs(stickersRef)
@@ -164,16 +186,14 @@ function loadStickers() {
           const stickerData = doc.data();
 
           const petrImg = document.createElement("img");
-          petrImg.src = stickerData.imageUrl;
+          petrImg.src = stickerData.imageUrl; // Use the correct Firebase Storage URL
           petrImg.classList.add("sticker");
           petrImg.alt = "Sticker";
 
-          // If the sticker is tradable, add the tradable class
           if (stickerData.tradable) {
             petrImg.classList.add("tradable");
           }
 
-          // Append the sticker to the grid
           document.getElementById("stickerGrid").appendChild(petrImg);
 
           petrImg.addEventListener("click", function () {
