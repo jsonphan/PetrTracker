@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, updateDoc, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, updateDoc,deleteDoc, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 const firebaseConfig = {
@@ -145,7 +145,7 @@ function addImage() {
         };
 
         addDoc(collection(db, "users", user.uid, "stickers"), stickerData)
-          .then(() => {
+          .then((docRef) => {
             console.log("Sticker added to Firestore");
 
             // Now append the sticker to the grid with the correct URL
@@ -153,6 +153,8 @@ function addImage() {
             petrImg.src = downloadURL;
             petrImg.classList.add("sticker");
             petrImg.alt = "Sticker";
+            
+            petrImg.dataset.stickerId = docRef.id;
 
             document.getElementById("stickerGrid").appendChild(petrImg);
             petrImg.addEventListener("click", function () {
@@ -189,6 +191,8 @@ function loadStickers() {
           petrImg.src = stickerData.imageUrl; // Use the correct Firebase Storage URL
           petrImg.classList.add("sticker");
           petrImg.alt = "Sticker";
+
+          petrImg.dataset.stickerId = doc.id;
 
           if (stickerData.tradable) {
             petrImg.classList.add("tradable");
@@ -230,25 +234,60 @@ function closeStickerModal(){
   modal.style.display = "none"; // Hide modal
 }
 
-function deleteSticker(){ // deletes sticker
-  if (selectedSticker){
-    selectedSticker.remove();
-    closeStickerModal();
+function deleteSticker() {
+  if (selectedSticker) {
+    const user = auth.currentUser;
+    const stickerId = selectedSticker.dataset.stickerId; // Retrieve the stored Firestore document ID
+
+    if (user && stickerId) {
+      const stickerRef = doc(db, "users", user.uid, "stickers", stickerId);
+
+      // Delete the sticker document from Firestore
+      deleteDoc(stickerRef)
+        .then(() => {
+          console.log("Sticker deleted from Firestore");
+
+          // Remove the sticker from the UI
+          selectedSticker.remove();
+          closeStickerModal();
+        })
+        .catch((error) => {
+          console.error("Error deleting sticker from Firestore:", error.message);
+        });
+    }
   }
 }
-
 document.getElementById("deleteStickerButton").addEventListener("click", deleteSticker);
 
 
-function markTradable(){ // allows the sticker to be marked tradable
-  if (selectedSticker){
-    if (selectedSticker.classList.contains("tradable")){
-      selectedSticker.classList.remove("tradable");
+function markTradable() {
+  if (selectedSticker) {
+    const user = auth.currentUser;
+    const stickerId = selectedSticker.dataset.stickerId;
+
+    if (user && stickerId) {
+      const stickerRef = doc(db, "users", user.uid, "stickers", stickerId);
+      const isCurrentlyTradable = selectedSticker.classList.contains("tradable");
+
+      // Toggle the tradable class in the UI
+      if (isCurrentlyTradable) {
+        selectedSticker.classList.remove("tradable");
+      } else {
+        selectedSticker.classList.add("tradable");
+      }
+
+      // Update the "tradable" status in Firestore
+      updateDoc(stickerRef, {
+        tradable: !isCurrentlyTradable
+      })
+        .then(() => {
+          console.log("Tradable status updated in Firestore");
+          closeStickerModal(); // Optionally close modal after update
+        })
+        .catch((error) => {
+          console.error("Error updating tradable status:", error.message);
+        });
     }
-    else{
-      selectedSticker.classList.add("tradable");
-    }
-    closeStickerModal();
   }
 }
 
